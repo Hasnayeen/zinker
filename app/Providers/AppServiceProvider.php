@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ParseCodeInput::class,
             fn ($app) => new ParseCodeInput(
-                config('app.url'),
+                config('app.url') . '/output',
                 resolve(ParserFactory::class)
             ),
         );

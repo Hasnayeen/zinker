@@ -1,17 +1,17 @@
-<section x-data="{tab: 'output'}" id="output" class="bg-gray-800 text-white overflow-y-auto h-full">
+<section x-data="{tab: 'output'}" id="output" class="bg-gray-900 text-white overflow-y-auto h-full">
     <header
-        class="w-full h-10 bg-gray-900 text-gray-400 font-semibold text-sm grid grid-cols-4">
-        <button @click="tab = 'output'" :class="tab === 'output' ? 'bg-gray-800' : 'bg-gray-900'" class="grid place-content-center"])>
+        class="w-full h-12 bg-gray-800 text-gray-400 font-semibold text-sm grid grid-cols-4">
+        <button @click="tab = 'output'" :class="tab === 'output' ? 'bg-gray-900' : 'bg-gray-800'" class="grid place-content-center"])>
             Output
         </button>
-        <button @click="tab = 'query_log'" :class="tab === 'query_log' ? 'bg-gray-800' : 'bg-gray-900'" class="grid place-content-center"])>
+        <button @click="tab = 'query_log'" :class="tab === 'query_log' ? 'bg-gray-900' : 'bg-gray-800'" class="grid place-content-center"])>
             Query Log
         </button>
-        <button @click="tab = 'table'" :class="tab === 'table' ? 'bg-gray-800' : 'bg-gray-900'" class="grid place-content-center"])>
+        <button @click="tab = 'table'" :class="tab === 'table' ? 'bg-gray-900' : 'bg-gray-800'" class="grid place-content-center"])>
             Table
         </button>
         @if ($rawOutput !== '')
-            <button @click="tab = 'raw'" :class="tab === 'raw' ? 'bg-gray-800' : 'bg-gray-900'" class="grid place-content-center"])>
+            <button @click="tab = 'raw'" :class="tab === 'raw' ? 'bg-gray-900' : 'bg-gray-800'" class="grid place-content-center"])>
                 Raw
             </button>
         @endif
@@ -20,33 +20,34 @@
         {!! $output !!}
     </div>
     <div x-show="tab === 'query_log'" x-transition x-cloak class="animate-plus" wire:loading.remove>
-        @forelse ($queryStats as $item)
-            <div class="w-full py-4">
-                <table class="table-fixed px-4 w-full">
-                    <tbody>
-                        <tr>
-                            <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Query:</th>
-                            <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">{{ $item['query'] }}</th>
-                        </tr>
-                        @if(count($item['bindings']) > 0)
+        @if ($queryStats)
+            @foreach ($queryStats as $item)
+                <div class="w-full py-4">
+                    <table class="table-fixed px-4 w-full">
+                        <tbody>
                             <tr>
-                                <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Bindings:</th>
-                                <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">
-                                    @foreach ($item['bindings'] as $binding)
-                                        <span>{{ $binding }}{{ !$loop->last ? ',' : '' }}</span>
-                                    @endforeach
-                                </th>
+                                <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Query:</th>
+                                <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">{{ $item['query'] }}</th>
                             </tr>
-                        @endif
-                        <tr>
-                            <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-gray-600 p-2">Time:</th>
-                            <th class="bg-gray-900 border-r border-gray-600 p-2 text-left font-semibold">{{ $item['time'] . 's' }}</th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        @empty
-        @endforelse
+                            @if(count($item['bindings']) > 0)
+                                <tr>
+                                    <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Bindings:</th>
+                                    <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">
+                                        @foreach ($item['bindings'] as $binding)
+                                            <span>{{ $binding }}{{ !$loop->last ? ',' : '' }}</span>
+                                        @endforeach
+                                    </th>
+                                </tr>
+                            @endif
+                            <tr>
+                                <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-gray-600 p-2">Time:</th>
+                                <th class="bg-gray-900 border-r border-gray-600 p-2 text-left font-semibold">{{ $item['time'] . 's' }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endforeach
+        @endif
     </div>
     <div x-show="tab === 'table'" x-transition wire:loading.remove>
         {!! $tableOutput !!}

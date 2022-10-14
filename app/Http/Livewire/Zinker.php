@@ -19,8 +19,8 @@ class Zinker extends Component
     public string $output = '';
     public string $rawOutput = '';
     public string $tableOutput = '';
-    public array $queryStats = [];
-    public Project $project;
+    public ?array $queryStats = [];
+    public ?Project $project;
 
     protected $listener = ['execute'];
 
@@ -53,6 +53,7 @@ class Zinker extends Component
             }
         } else {
             $this->rawOutput = VarDumper::dump($rawOutput);
+            $this->output = VarDumper::dump('Something went wrong!');
         }
     }
 
@@ -93,6 +94,11 @@ class Zinker extends Component
         }
 
         return $output;
+    }
+
+    public function switchProject($projectId)
+    {
+        $this->project = Project::find($projectId);
     }
 
     public function render()

@@ -28,10 +28,16 @@ class InstallCommand extends Command
      */
     public function handle(Project $project)
     {
+        if ($project->first()) {
+            $this->error('Zinker is already installed.');
+
+            return Command::FAILURE;
+        }
+        $project->name = 'Zinker';
         $project->path = base_path();
         $project->database = config('database.connections.' . config('database.default') . '.database');
         $project->default = true;
-        
+        $project->save();
         $this->info('Zinker is installed successfully.');
 
         return Command::SUCCESS;

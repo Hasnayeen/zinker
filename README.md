@@ -14,28 +14,35 @@ I build this for my own need. I often need to run some code in an app and don't 
 
 ## Setup
 
-Currently this works on valet.
+> **Info**
+> Tested this only on valet. 
 
 Install like a regular laravel app.
+
+- Install composer package
+- Add .env file (`APP_URL` should be set properly for the app to work and use `http` protocol)
+- Add database
+- Run migration
+- Run `php artisan zinker:install` command.
 
 
 ## Features
 
 Features I intend to add in future
 
-[x] Run php code
+- [x] Run php code
 
-[x] Run code on any laravel application
+- [x] Run code on any laravel application
 
-[x] See all the query log of your code
+- [x] See all the query log of your code
 
-[] See date time format and iterate on key shortcut
+- [x] See model/collection data in table
 
-[] See model/collection data in table
+- [] See date time format and iterate on key shortcut
 
-[] Filtering and searching function for table data
+- [] Filtering and searching function for table data
 
-[] Raw SQL to Eloquent query
+- [] Raw SQL to Eloquent query
 
 
 ## Community

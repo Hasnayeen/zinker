@@ -19,10 +19,12 @@
             .cm-editor {
                 height: 100%;
                 font-size: 1rem;
-                background-color: #1f2937;
+                background-color: #000000;
             }
             .cm-gutter {
                 background-color: #000000;
+                border-right-width: 1px;
+                border-right-color: #6b7280;
                 color: #9ca3af;
                 padding-right: 0.5rem;
             }

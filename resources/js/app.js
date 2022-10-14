@@ -33,13 +33,7 @@ Alpine.data('app', () => ({
   initEditor () {
     this.editor = new EditorView({
       state: EditorState.create({
-      doc: 'Shipment::limit(2)->get();',
-//       doc: `/** 
-// @text-to-eloquent A query to list the names of the customers who spend the most in the last 3 months
-// @table Order('id', 'amount', 'customers_id')
-// @table Customer('id', 'name')
-// */
-// `,
+        doc: '',
         extensions: [
           lineNumbers(),
           EditorView.lineWrapping,
@@ -77,6 +71,13 @@ Alpine.data('app', () => ({
     if (this.split) {
       this.split.destroy()
     }
+  },
+
+  switchProject(project) {
+    console.log(this.currentProject)
+    window.Livewire.first().call('switchProject', project.id)
+    this.currentProject = project
+    console.log(this.currentProject)
   },
 
   executeCode () {
