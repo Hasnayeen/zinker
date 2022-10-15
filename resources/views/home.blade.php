@@ -1,5 +1,5 @@
 <x-layout>
-    <div x-data="app">
+    <div x-data="app" @keyup.ctrl.slash.window="openCommandPalette" @keyup.alt.slash.window="openCommandPalette">
         <main class="grid fixed w-screen h-screen bg-black" :class="needsColumnLayout && 'grid-rows-[100vh]'" :style="gridStyle">
             <section class="">
                 <header class="w-full h-12 border-b border-gray-500 grid grid-cols-6 gap-y-2 items-center">
@@ -57,5 +57,7 @@
                     after:text-gray-300 after:text-[10px] after:leading-[6px] after:content-['\2022\2022\2022'] after:text-center after:break-all cursor-ew-resize" />
             <livewire:zinker :project="$currentProject" />
         </main>
+
+        <livewire:command-palette />
     </div>
 </x-layout>

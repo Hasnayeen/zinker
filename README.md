@@ -49,3 +49,7 @@ Features I intend to add in future
 
 Join discord server for project help, announcement and more.
 [Join link](https://discord.gg/4DvTQsc)
+
+## Inspiration
+
+This tool was inspired by [laravel-web-tinker](https://github.com/spatie/laravel-web-tinker) and [Tinkerwell](https://tinkerwell.app/)
