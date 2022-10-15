@@ -50,6 +50,7 @@ Alpine.data('app', () => ({
           keymap.of([
             { key: "Ctrl-Enter", run: () => this.executeCode() },
             { key: "Ctrl-Shift-/", run: () => this.openCommandPalette() },
+            { key: "Ctrl-Shift-f", run: () => this.openCommandPalette('DateTime Format') },
             ...defaultKeymap,
             ...historyKeymap,
           ])
@@ -90,11 +91,11 @@ Alpine.data('app', () => ({
     return true
   },
 
-  openCommandPalette() {
+  openCommandPalette (commandName = null) {
     if (event.target.contains(document.activeElement) && !event.shiftKey) {
       return false
     }
-    window.Livewire.emitTo('command-palette', 'showCommandPalette')
+    window.Livewire.emitTo('command-palette', 'showCommandPalette', commandName)
   },
 
   updateCommandList (e) {

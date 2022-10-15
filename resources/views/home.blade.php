@@ -59,5 +59,6 @@
         </main>
 
         <livewire:command-palette />
+        <livewire:date-time-format />
     </div>
 </x-layout>

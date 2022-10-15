@@ -26,7 +26,7 @@ class CreateTableView
     {
         return [
             '',
-            view('table.vertical', ['properties' => $array])->render(),
+            view('components.table.vertical', ['properties' => $array])->render(),
         ];
     }
 
@@ -35,8 +35,8 @@ class CreateTableView
         $keys = array_keys($data->first());
 
         return [
-            view('table.thead', ['keys' => $keys])->render(),
-            view('table.horizontal', ['items' => $data])->render(),
+            view('components.table.thead', ['keys' => $keys])->render(),
+            view('components.table.horizontal', ['items' => $data])->render(),
         ];
     }
 }

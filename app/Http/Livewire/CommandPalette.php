@@ -11,9 +11,12 @@ class CommandPalette extends Component
 
     protected $listeners = ['showCommandPalette', 'updateCommandList'];
 
-    public function showCommandPalette()
+    public function showCommandPalette($commandName = null)
     {
         $this->paletteShown = ! $this->paletteShown;
+        if ($commandName) {
+            $this->runCommand($commandName);
+        }
     }
 
     public function updateCommandList()
@@ -21,14 +24,22 @@ class CommandPalette extends Component
         $this->dispatchBrowserEvent('update-command-list', $this->commands);
     }
 
-    public function runCommand()
+    public function runCommand(string $commandName)
     {
-        # code...
+        match ($commandName) {
+            'DateTime Format' => $this->emitTo('date-time-format', 'show'),
+            default => null,
+        };
+        $this->paletteShown = false;
     }
 
     public function getCommandsProperty()
     {
-        return [];
+        return [
+            1 => [
+                'name' => 'DateTime Format',
+            ]
+        ];
     }
 
     public function render()

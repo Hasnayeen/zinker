@@ -27,12 +27,12 @@
                         <tbody>
                             <tr>
                                 <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Query:</th>
-                                <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">{{ $item['query'] }}</th>
+                                <th class="bg-black border-r border-b border-gray-600 p-2 text-left font-semibold">{{ $item['query'] }}</th>
                             </tr>
                             @if(count($item['bindings']) > 0)
                                 <tr>
                                     <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-b border-gray-600 p-2">Bindings:</th>
-                                    <th class="bg-gray-900 border-r border-b border-gray-600 p-2 text-left font-semibold">
+                                    <th class="bg-black border-r border-b border-gray-600 p-2 text-left font-semibold">
                                         @foreach ($item['bindings'] as $binding)
                                             <span>{{ $binding }}{{ !$loop->last ? ',' : '' }}</span>
                                         @endforeach
@@ -41,7 +41,7 @@
                             @endif
                             <tr>
                                 <th class="w-20 bg-gray-700 text-gray-300 font-normal text-left border-r border-gray-600 p-2">Time:</th>
-                                <th class="bg-gray-900 border-r border-gray-600 p-2 text-left font-semibold">{{ $item['time'] . 's' }}</th>
+                                <th class="bg-black border-r border-gray-600 p-2 text-left font-semibold">{{ $item['time'] . 's' }}</th>
                             </tr>
                         </tbody>
                     </table>

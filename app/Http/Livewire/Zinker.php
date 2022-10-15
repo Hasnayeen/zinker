@@ -98,6 +98,7 @@ class Zinker extends Component
 
     public function switchProject($projectId)
     {
+        $this->resetOutputs();
         $this->project = Project::find($projectId);
     }
 
