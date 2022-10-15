@@ -90,7 +90,9 @@ class Zinker extends Component
         $output = '';
         $createTableView = new CreateTableView();
         foreach ($data as $value) {
-            $output .= $createTableView($value);
+            if (is_array($value)) {
+                $output .= $createTableView($value);
+            }
         }
 
         return $output;
