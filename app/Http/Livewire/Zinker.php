@@ -10,9 +10,11 @@ use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
+use PhpParser\Error;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
+use Throwable;
 
 class Zinker extends Component
 {
@@ -31,8 +33,21 @@ class Zinker extends Component
         RunMagicCommands $runMagicCommands,
     ): void {
         $this->resetOutputs();
+        $this->setDumperHandler();
         $rid = Str::random(8);
-        [$code, $formattedCode, $magicCommands] = $parseCodeInput($input, $rid);
+        try {
+            [$code, $formattedCode, $magicCommands] = $parseCodeInput($input, $rid);
+        } catch (Error $error) {
+            $this->output = VarDumper::dump($error->getRawMessage() . ' on ' . $error->getEndLine() - 2);
+            $this->rawOutput = $error->getRawMessage();
+
+            return;
+        } catch (Throwable $th) {
+            $this->output = VarDumper::dump($th->getMessage());
+            $this->rawOutput = $th->getMessage();
+
+            return;
+        }
         if (!empty($magicCommands)) {
             $runMagicCommands($magicCommands, $code);
         }
@@ -40,11 +55,6 @@ class Zinker extends Component
 
         [$this->queryStats, $outputs] = $this->getOutput($rid);
 
-        VarDumper::setHandler(function ($var) {
-            $cloner = new VarCloner();
-            $dumper = new HtmlDumper();
-            return $dumper->dump($cloner->cloneVar($var), true);
-        });
         if (!is_null($outputs)) {
             $this->tableOutput = $this->getTableOutput($outputs);
     
@@ -65,7 +75,7 @@ class Zinker extends Component
         $this->queryStats = [];
     }
 
-    public function getOutput($rid)
+    private function getOutput($rid)
     {
         if (File::exists(storage_path('app/public/'.$rid.'_output.txt'))) {
             $output = File::get(storage_path('app/public/'.$rid.'_output.txt'));
@@ -85,7 +95,7 @@ class Zinker extends Component
         }
     }
 
-    public function getTableOutput($data)
+    private function getTableOutput($data)
     {
         $output = '';
         $createTableView = new CreateTableView();
@@ -96,6 +106,15 @@ class Zinker extends Component
         }
 
         return $output;
+    }
+
+    private function setDumperHandler()
+    {
+        VarDumper::setHandler(function ($var) {
+            $cloner = new VarCloner();
+            $dumper = new HtmlDumper();
+            return $dumper->dump($cloner->cloneVar($var), true);
+        });
     }
 
     public function switchProject($projectId)
