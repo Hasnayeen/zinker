@@ -6,6 +6,8 @@ The project is in early stage of development so code is unorganized and bug ridd
 
 Zinker is a laravel code runner application. It's kind of like a poorman's Tinkerwell with lot less feature and a web app instead of a desktop app.
 
+![demo](https://github.com/Hasnayeen/assets/blob/main/zinker_demo.gif?raw=true)
+
 ## Why
 
 First of all [Just For Fun, Really!!!](https://justforfunnoreally.dev)
@@ -40,11 +42,11 @@ Features I intend to add in future
 
 - [x] See model/collection data in table
 
-- [] See date time format and iterate on key shortcut
+- [x] See date time format and iterate on key shortcut
 
-- [] Filtering and searching function for table data
+- [ ] Filtering and searching function for table data
 
-- [] Raw SQL to Eloquent query
+- [ ] Raw SQL to Eloquent query
 
 
 ## Community

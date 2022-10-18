@@ -1,5 +1,5 @@
 <x-layout>
-    <div x-data="app" @keyup.ctrl.slash.window="openCommandPalette" @keyup.alt.slash.window="openCommandPalette">
+    <div x-data="app" @keyup.ctrl.slash.window="openCommandPalette" @keyup.alt.slash.window="openCommandPalette" class="w-screen h-screen">
         <header class="w-full h-16 bg-black border-b border-gray-500 flex justify-between px-8 items-center">
             <div x-data="{projects: @js($projects), currentProject: @js($currentProject->toArray()) }" class="relative col-start-1 col-span-2">
                 <x-dropdown align="left" width="60">
@@ -65,7 +65,7 @@
                 </button>
             </div>
         </header>
-         <main class="grid fixed w-screen h-screen bg-black" :class="needsColumnLayout && 'grid-rows-[100vh]'" :style="gridStyle">
+         <main class="grid fixed w-full bg-black" :class="needsColumnLayout && 'grid-rows-[calc(100vh-4rem)]'" :style="gridStyle">
             <section class="">
                 <div id="editor" class="w-full h-full bg-slate-900 resize-none">
                 </div>
