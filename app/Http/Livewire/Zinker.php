@@ -18,7 +18,9 @@ use Throwable;
 
 class Zinker extends Component
 {
-    public string $output = '';
+    public string $output = <<<output
+    <span class="px-4">Press Ctrl+Enter to run code.</span>
+    output;
     public string $rawOutput = '';
     public string $tableOutput = '';
     public ?array $queryStats = [];

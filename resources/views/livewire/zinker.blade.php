@@ -16,7 +16,7 @@
             </button>
         @endif
     </header>
-    <div x-show="tab === 'output'" x-transition wire:loading.remove>
+    <div x-show="tab === 'output'" x-transition wire:loading.remove class="pt-4">
         {!! $output !!}
     </div>
     <div x-show="tab === 'query_log'" x-transition x-cloak class="animate-plus" wire:loading.remove>

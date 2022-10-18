@@ -2,11 +2,13 @@ import Alpine from 'alpinejs'
 import focus from "@alpinejs/focus"
 import Split from 'split-grid'
 import { EditorView, lineNumbers, keymap } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
+import { EditorState, Compartment } from '@codemirror/state'
 import { php, phpLanguage } from '@codemirror/lang-php'
+import { indentUnit, syntaxHighlighting } from "@codemirror/language"
 import { autocompletion } from '@codemirror/autocomplete'
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
-import { nord } from 'cm6-theme-nord'
+import { nord, gruvboxLight, gruvboxDark, solarizedLight, solarizedDark, materialDark } from './theme.js'
+import { nordHighlightStyle } from 'cm6-theme-nord'
 
 Alpine.plugin(focus)
 
@@ -21,6 +23,9 @@ Alpine.data('app', () => ({
   value: null,
   commands: [],
   focusedCommand: null,
+  theme: null,
+  currentTheme: null,
+  themes: null,
 
 //======================================================================
 // Methods
@@ -36,21 +41,33 @@ Alpine.data('app', () => ({
     window.Livewire.emitTo('command-palette', 'updateCommandList')
   },
 
-  initEditor () {
+  initEditor() {
+    this.theme = new Compartment
+    this.themes = [nord, gruvboxLight, gruvboxDark, solarizedLight, solarizedDark, materialDark]
+    let currentTheme = nord
+    this.currentTheme = currentTheme
     this.editor = new EditorView({
-      state: EditorState.create({
-        doc: '',
+    state: EditorState.create({
+        doc: `/*
+| You can run code by pressing the run button (Ctrl+Enter)
+| To open the command palette press (Ctrl+/) or (Ctrl+Shift+/)
+| To change editor theme press (Ctrl+Alt+s)
+*/
+`,
         extensions: [
           lineNumbers(),
           EditorView.lineWrapping,
+          indentUnit.of("    "),
           php({baseLanguage: phpLanguage, plain: true}),
           autocompletion(),
-          nord,
+          this.theme.of(currentTheme),
+          syntaxHighlighting(nordHighlightStyle),
           history(),
           keymap.of([
             { key: "Ctrl-Enter", run: () => this.executeCode() },
             { key: "Ctrl-Shift-/", run: () => this.openCommandPalette() },
             { key: "Ctrl-Shift-f", run: () => this.openCommandPalette('DateTime Format') },
+            { key: "Ctrl-Alt-s", run: () => this.switchEditorTheme() },
             ...defaultKeymap,
             ...historyKeymap,
           ])
@@ -86,7 +103,7 @@ Alpine.data('app', () => ({
     this.currentProject = project
   },
 
-  executeCode () {
+  executeCode() {
     window.Livewire.first().call('execute', this.editor.state.doc)
     return true
   },
@@ -100,6 +117,15 @@ Alpine.data('app', () => ({
 
   updateCommandList (e) {
     this.commands = e.detail
+  },
+
+  switchEditorTheme(theme) {
+    const currentIndex = this.themes.indexOf(this.currentTheme)
+    const nextIndex = (currentIndex + 1) % this.themes.length
+    this.currentTheme = this.themes[nextIndex]
+    this.editor.dispatch({
+      effects: this.theme.reconfigure(this.themes[nextIndex])
+    })
   },
 
 //======================================================================

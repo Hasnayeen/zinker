@@ -48,6 +48,5 @@
     <body class="antialiased">
         {{ $slot }}
         <livewire:scripts />
-
     </body>
 </html>
