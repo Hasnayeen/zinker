@@ -24,7 +24,9 @@ Install like a regular laravel app.
 - Add database
 - Run migration
 - Run `php artisan zinker:install` command.
+- Run `npm run build` command.
 
+Now enjoy!
 
 ## Features
 

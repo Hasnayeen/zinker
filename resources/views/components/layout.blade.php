@@ -36,7 +36,7 @@
                 line-height: 1.4rem;
             }
             pre.sf-dump, pre.sf-dump .sf-dump-default {
-                background-color: #000000 !important;
+                background-color: #0f172a !important;
             }
             .sf-dump-default.sf-dump-ns {
                 display: none;

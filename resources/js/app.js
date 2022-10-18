@@ -1,7 +1,7 @@
 import Alpine from 'alpinejs'
 import focus from "@alpinejs/focus"
 import Split from 'split-grid'
-import { EditorView, lineNumbers, keymap } from '@codemirror/view'
+import { EditorView, lineNumbers, keymap, placeholder } from '@codemirror/view'
 import { EditorState, Compartment } from '@codemirror/state'
 import { php, phpLanguage } from '@codemirror/lang-php'
 import { indentUnit, syntaxHighlighting } from "@codemirror/language"
@@ -19,6 +19,7 @@ Alpine.data('app', () => ({
   gutterWidth: 9,
   minSize: 100,
   breakpoint: 768,
+  currentLayout: 'column',
   editor: null,
   value: null,
   commands: [],
@@ -47,14 +48,13 @@ Alpine.data('app', () => ({
     let currentTheme = nord
     this.currentTheme = currentTheme
     this.editor = new EditorView({
-    state: EditorState.create({
-        doc: `/*
-| You can run code by pressing the run button (Ctrl+Enter)
-| To open the command palette press (Ctrl+/) or (Ctrl+Shift+/)
-| To change editor theme press (Ctrl+Alt+s)
-*/
-`,
+      state: EditorState.create({
+        doc: '',
         extensions: [
+          placeholder(`To run code click the run button or press (Ctrl+Enter)
+To open the command palette press (Ctrl+/) or (Ctrl+Shift+/)
+To open the DateTime formatter press (Ctrl+Shift+f)
+To change editor theme press (Ctrl+Alt+s)`),
           lineNumbers(),
           EditorView.lineWrapping,
           indentUnit.of("    "),
@@ -141,7 +141,7 @@ Alpine.data('app', () => ({
   },
 
   get needsColumnLayout () {
-    return this.windowWidth > this.breakpoint
+    return (this.windowWidth > this.breakpoint) && (this.currentLayout === 'column')
   },
 
   get gridStyle () {
