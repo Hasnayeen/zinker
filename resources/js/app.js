@@ -115,11 +115,15 @@ To change editor theme press (Ctrl+Alt+s)`),
     window.Livewire.emitTo('command-palette', 'showCommandPalette', commandName)
   },
 
+  openSettings () {
+    window.Livewire.emitTo('settings', 'show')
+  },
+
   updateCommandList (e) {
     this.commands = e.detail
   },
 
-  switchEditorTheme(theme) {
+  switchEditorTheme (theme) {
     const currentIndex = this.themes.indexOf(this.currentTheme)
     const nextIndex = (currentIndex + 1) % this.themes.length
     this.currentTheme = this.themes[nextIndex]

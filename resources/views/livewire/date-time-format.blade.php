@@ -47,5 +47,4 @@
             </table>
         </x-slot>
     </x-dialog>
-
 </div>

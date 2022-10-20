@@ -1,3 +1,5 @@
+<p align="center"><a href="https://github.com/Hasnayeen/zinker" target="_blank"><img src="https://raw.githubusercontent.com/Hasnayeen/assets/main/logo.svg" width="400"></a></p>
+
 # Under Development
 
 The project is in early stage of development so code is unorganized and bug ridden.
