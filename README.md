@@ -19,7 +19,7 @@ I build this for my own need. I often need to run some code in an app and don't 
 ## Setup
 
 > **Info**
-> Tested this only on valet. 
+> Tested this only on valet.
 
 Install like a regular laravel app.
 

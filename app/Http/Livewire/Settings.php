@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Settings extends Component
 {
-    public bool $modalShown = true;
+    public bool $modalShown = false;
     public bool $creatingProject = false;
     public bool $showDeleteConfirmationModal = false;
     public int $projectBeingEdited;

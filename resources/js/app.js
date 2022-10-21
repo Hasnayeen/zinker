@@ -68,6 +68,7 @@ To change editor theme press (Ctrl+Alt+s)`),
             { key: "Ctrl-Shift-/", run: () => this.openCommandPalette() },
             { key: "Ctrl-Shift-f", run: () => this.openCommandPalette('DateTime Format') },
             { key: "Ctrl-Alt-s", run: () => this.switchEditorTheme() },
+            { key: "Ctrl-d", run: () => this.selectWord() },
             ...defaultKeymap,
             ...historyKeymap,
           ])
@@ -130,6 +131,19 @@ To change editor theme press (Ctrl+Alt+s)`),
     this.editor.dispatch({
       effects: this.theme.reconfigure(this.themes[nextIndex])
     })
+  },
+
+  selectWord() {
+    let cursorAt = this.editor.state.selection.ranges[0].from
+    let wordPos = this.editor.state.wordAt(cursorAt)
+
+    this.editor.dispatch({
+      selection: {
+        anchor: wordPos.from,
+        head: wordPos.to,
+      }
+    })
+    return true
   },
 
 //======================================================================
