@@ -7,6 +7,8 @@ use App\Actions\ParseCodeInput;
 use App\Actions\RunInTinker;
 use App\Actions\RunMagicCommands;
 use App\Models\Project;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
@@ -69,7 +71,7 @@ class Zinker extends Component
         }
     }
 
-    private function resetOutputs()
+    private function resetOutputs(): void
     {
         $this->output = '';
         $this->rawOutput = '';
@@ -77,7 +79,10 @@ class Zinker extends Component
         $this->queryStats = [];
     }
 
-    private function getOutput($rid)
+    /**
+     * @return array<int,mixed>|array<int,null>
+     */
+    private function getOutput($rid): array
     {
         if (File::exists(storage_path('app/public/'.$rid.'_output.txt'))) {
             $output = File::get(storage_path('app/public/'.$rid.'_output.txt'));
@@ -88,6 +93,9 @@ class Zinker extends Component
                     continue;
                 }
                 $decodedValue = json_decode($value, true);
+                if (!is_array($decodedValue) && is_string($decodedValue)) {
+                    $decodedValue = ($result = json_decode($decodedValue, true)) ? $result : $decodedValue;
+                }
                 $outputs[] = $decodedValue;
             }
             File::delete(storage_path('app/public/'.$rid.'_output.txt'));
@@ -95,9 +103,11 @@ class Zinker extends Component
 
             return [$queryLog, $outputs];
         }
+
+        return [null, null];
     }
 
-    private function getTableOutput($data)
+    private function getTableOutput($data): string
     {
         $output = '';
         $createTableView = new CreateTableView();
@@ -110,7 +120,7 @@ class Zinker extends Component
         return $output;
     }
 
-    private function setDumperHandler()
+    private function setDumperHandler(): void
     {
         VarDumper::setHandler(function ($var) {
             $cloner = new VarCloner();
@@ -119,13 +129,13 @@ class Zinker extends Component
         });
     }
 
-    public function switchProject($projectId)
+    public function switchProject($projectId): void
     {
         $this->resetOutputs();
         $this->project = Project::find($projectId);
     }
 
-    public function render()
+    public function render(): View|Factory
     {
         return view('livewire.zinker');
     }
